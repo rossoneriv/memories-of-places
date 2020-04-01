@@ -6,11 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>Memories of places</title>
+    <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/map.css' %}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d697a41efb92b2d9beaafe1638750478&libraries=services,clusterer,drawing"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.2/jquery.min.js"></script> -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/dynamicMap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/registerModal.js' %}"></script>
 </head>
 <body>
     <div class="map_wrap">
@@ -33,6 +37,7 @@
     <div id="modal_wrap"></div>
 
     {% for memory in memories %}
+    <hr>
     <div class="media">
         <div class="media-body">
             <h4 class="media-heading">{{memory.place}}</h4>
@@ -43,5 +48,23 @@
         </div>
     </div>
     {% endfor %}
+
+    <script>
+        let thisLocation = dynamicMap.getLocation();
+
+        let container = document.getElementById('map');
+        let options = {
+            center: new kakao.maps.LatLng(37.567139, 126.978674),
+            level: 3
+        };
+
+        let map = new kakao.maps.Map(container, options);
+        let placeService = new kakao.maps.services.Places();
+        let infowindow = new kakao.maps.InfoWindow({zIndex: 1});
+
+        function searchPlaces(){
+            dynamicMap.searchPlaces();
+        }
+    </script>
 </body>
 </html>
